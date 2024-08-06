@@ -12,7 +12,7 @@ const { token } = require('morgan');
 const login = async (req, res, next) => {
   const { email, password } = req.body;
 
-  if (!email && !password) {
+  if (!email || !password) {
     return res.status(400).json({ message: 'please fill required fields' });
   }
 
@@ -20,12 +20,14 @@ const login = async (req, res, next) => {
 
   const isPasswordCorrect =
     user && (await bcrypt.compare(password, user.password));
+  const secret = process.env.JWT_SECRET;
 
-  if (isPasswordCorrect) {
+  if (user && isPasswordCorrect && secret) {
     res.status(200).json({
       id: user.id,
       email: user.email,
       name: user.name,
+      token: jwt.sign({ id: user.id }, secret, { expiresIn: '30d' }),
     });
   } else {
     return res.status(403).json({ message: 'wrong email or password' });
@@ -43,7 +45,7 @@ const register = async (req, res, next) => {
   try {
     const { email, password, name } = req.body;
 
-    if (!email && !password && !name) {
+    if (!email || !password || !name) {
       return res.status(400).json({ message: 'please fill required fields' });
     }
 
