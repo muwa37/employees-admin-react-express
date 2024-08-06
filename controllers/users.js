@@ -9,7 +9,7 @@ const { token } = require('morgan');
  * @access Public
  */
 
-const login = async (req, res, next) => {
+const login = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -41,7 +41,7 @@ const login = async (req, res, next) => {
  * @access Public
  */
 
-const register = async (req, res, next) => {
+const register = async (req, res) => {
   try {
     const { email, password, name } = req.body;
 
@@ -81,8 +81,15 @@ const register = async (req, res, next) => {
   }
 };
 
-const current = async (req, res, next) => {
-  res.send('current');
+/**
+ *
+ * @route GET /api/user/current
+ * @desc current user
+ * @access Private
+ */
+
+const current = async (req, res) => {
+  return res.status(200).json(req.user);
 };
 
 module.exports = { login, register, current };
