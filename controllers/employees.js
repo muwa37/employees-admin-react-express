@@ -1,4 +1,4 @@
-const { prisma } = require("../prisma/prisma-client");
+const { prisma } = require('../prisma/prisma-client');
 
 /**
  * @route GET /api/employees
@@ -12,7 +12,7 @@ const all = async (req, res) => {
 
     res.status(200).json(employees);
   } catch {
-    res.status(500).json({ message: "can not get employees" });
+    res.status(500).json({ message: 'can not get employees' });
   }
 };
 
@@ -27,7 +27,7 @@ const add = async (req, res) => {
     const data = req.body;
 
     if (!data.firstName || !data.lastName || !data.address || !data.age) {
-      return res.status(400).json({ message: "fill all required fields" });
+      return res.status(400).json({ message: 'fill all required fields' });
     }
 
     const employee = await prisma.employee.create({
@@ -40,12 +40,12 @@ const add = async (req, res) => {
     return res.status(201).json(employee);
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Что-то пошло не так" });
+    res.status(500).json({ message: 'Что-то пошло не так' });
   }
 };
 
 /**
- * @route POST /api/empoyees/remove/:id
+ * @route POST /api/employees/remove/:id
  * @desc remove employee
  * @access Private
  */
@@ -60,14 +60,14 @@ const remove = async (req, res) => {
       },
     });
 
-    res.status(204).json("OK");
+    res.status(204).json('OK');
   } catch {
-    res.status(500).json({ message: "can not remove employee" });
+    res.status(500).json({ message: 'can not remove employee' });
   }
 };
 
 /**
- * @route PUT /api/empoyees/edit/:id
+ * @route PUT /api/employees/edit/:id
  * @desc change employee
  * @access Private
  */
@@ -84,9 +84,9 @@ const edit = async (req, res) => {
       data,
     });
 
-    res.status(204).json("OK");
-  } catch(err) {
-    res.status(500).json({ message: "can not change employee" });
+    res.status(204).json('OK');
+  } catch (err) {
+    res.status(500).json({ message: 'can not change employee' });
   }
 };
 
@@ -108,7 +108,7 @@ const employee = async (req, res) => {
 
     res.status(200).json(employee);
   } catch {
-    res.status(500).json({ message: "can not find employee" });
+    res.status(500).json({ message: 'can not find employee' });
   }
 };
 
